@@ -1,7 +1,9 @@
 const hexInputRef = document.getElementById("hexInput");
 const sliderRef = document.getElementById("slider");
+const sliderTextRef = document.getElementById("sliderText");
 const inputColorRef = document.getElementById("inputColor");
 const alteredColorRef = document.getElementById("alteredColor");
+const alteredColorTextRef = document.getElementById("alteredColorText")
 
 
 const isValidHex = (hex) => {
@@ -14,16 +16,6 @@ const isValidHex = (hex) => {
         || strippedHex.length === 6;
 }
 
-
-hexInputRef.addEventListener("keyup", () => {
-    const hex = hexInputRef.value;
-    if (!isValidHex(hex)) {
-        return;
-    }
-
-    const strippedHex = hex.replace("#", "");
-    inputColorRef.style.backgroundColor = "#" + strippedHex;
-})
 
 const hexToRgb = (hex) => {
     if (!isValidHex(hex)) {
@@ -60,3 +52,39 @@ const duplicateEachChar = (string) => {
     }
     return modifiedString;
 }
+
+const alterColor = (hex, percentage) => {
+    const {r, g, b} = hexToRgb(hex);
+
+    const amount = Math.floor((percentage / 100) * 255);
+    return rgbToHex(increaseRgbPiece(r, amount), increaseRgbPiece(g, amount), increaseRgbPiece(b, amount));
+}
+
+const increaseRgbPiece = (rgbPiece, amount) => {
+    return Math.min(255, Math.max(0, rgbPiece + amount));
+}
+
+
+hexInputRef.addEventListener("keyup", () => {
+    const hex = hexInputRef.value;
+    if (!isValidHex(hex)) {
+        return;
+    }
+
+    const strippedHex = hex.replace("#", "");
+    inputColorRef.style.backgroundColor = "#" + strippedHex;
+})
+
+
+sliderRef.addEventListener("input", () => {
+    if (!isValidHex(hexInputRef.value)) {
+        return;
+    }
+    sliderTextRef.value = sliderRef.value + "%";
+
+    const alteredHex = alterColor(hexInputRef.value, sliderRef.value);
+    alteredColorRef.style.backgroundColor = alteredHex;
+
+    alteredColorTextRef.value = alteredHex;
+
+})
