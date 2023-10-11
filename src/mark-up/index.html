@@ -3,8 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../styles/style.css"/>
 </head>
 <body>
 
+<!--
+container
+
+title
+
+color input - hex
+
+slider 0-100
+
+input color and altered color
+-->
+
+<div class="container">
+    <h1 class="container-title">
+        Color Lighter / Darker
+    </h1>
+    <label for="hexInput">Color [HEX]</label>
+    <input id="hexInput" type="text" placeholder="#000000"/>
+
+    <label for="slider" id="sliderText">0%</label>
+    <input id="slider" class="slider" type="range" min="0" max="100" value="0"/>
+
+    <label for="inputColor">Input color</label>
+    <div id="inputColor" class="box"></div>
+
+    <label for="alteredColor">Altered color</label>
+    <div id="alteredColor" class="box"></div>
+
+</div>
+
+<script src="../script/script.js"></script>
+<noscript>You need to enable javascript on this page</noscript>
 </body>
 </html>
