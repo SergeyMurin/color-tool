@@ -3,7 +3,10 @@ const sliderRef = document.getElementById("slider");
 const sliderTextRef = document.getElementById("sliderText");
 const inputColorRef = document.getElementById("inputColor");
 const alteredColorRef = document.getElementById("alteredColor");
-const alteredColorTextRef = document.getElementById("alteredColorText")
+const alteredColorTextRef = document.getElementById("alteredColorText");
+const lighterTextRef = document.getElementById("lighterText");
+const darkerTextRef = document.getElementById("darkerText");
+const toggleBtnRef = document.getElementById("toggleBtn");
 
 
 const isValidHex = (hex) => {
@@ -73,18 +76,36 @@ hexInputRef.addEventListener("keyup", () => {
 
     const strippedHex = hex.replace("#", "");
     inputColorRef.style.backgroundColor = "#" + strippedHex;
-})
+});
 
 
 sliderRef.addEventListener("input", () => {
     if (!isValidHex(hexInputRef.value)) {
         return;
     }
-    sliderTextRef.value = sliderRef.value + "%";
+    sliderTextRef.textContent = sliderRef.value + "%";
 
-    const alteredHex = alterColor(hexInputRef.value, sliderRef.value);
+    const valueAddition =
+        toggleBtnRef.classList.contains('toggled') ?
+            -sliderRef.value
+            : sliderRef.value;
+
+    const alteredHex = alterColor(hexInputRef.value, valueAddition);
     alteredColorRef.style.backgroundColor = alteredHex;
 
-    alteredColorTextRef.value = alteredHex;
+    alteredColorTextRef.textContent = alteredHex;
 
-})
+});
+
+
+toggleBtnRef.addEventListener('click', () => {
+    if (toggleBtnRef.classList.contains('toggled')) {
+        toggleBtnRef.classList.remove('toggled');
+        lighterTextRef.classList.remove('unselected');
+        darkerTextRef.classList.add('unselected');
+    } else {
+        toggleBtnRef.classList.add('toggled');
+        lighterTextRef.classList.add('unselected');
+        darkerTextRef.classList.remove('unselected');
+    }
+});
